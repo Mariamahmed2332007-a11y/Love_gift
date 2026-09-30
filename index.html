@@ -6,13 +6,14 @@
     <title>هدية خاصة ✨</title>
     <style>
         :root {
-            --bg-color: #fdfbf7;
-            --card-bg: #f5efe6;
-            --primary-gold: #c5a059;
-            --dark-gold: #9e7b3b;
-            --text-black: #1a1a1a;
-            --text-muted: #555555;
-            --border-color: #e2d7c5;
+            --bg-color: #FAF6F0;
+            --card-bg: #FFFFFF;
+            --primary-gold: #D4AF37;
+            --dark-gold: #AA7C11;
+            --light-gold: #F3E5AB;
+            --text-black: #2C2C2C;
+            --text-muted: #666666;
+            --border-color: #E8DFD1;
         }
 
         * {
@@ -26,7 +27,7 @@
             background-color: var(--bg-color);
             color: var(--text-black);
             overflow-x: hidden;
-            padding-bottom: 40px;
+            padding-bottom: 50px;
         }
 
         /* القلوب والنجوم الطائرة */
@@ -34,62 +35,84 @@
             position: fixed;
             pointer-events: none;
             z-index: 999;
-            animation: floatUp 5s linear infinite;
-            opacity: 0.7;
+            animation: floatUp 4s linear infinite;
+            opacity: 0.8;
         }
 
         @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+            0% { transform: translateY(100vh) scale(0.6) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
         }
 
         /* لوحة المولد */
         #generator-screen {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 20px;
+            max-width: 480px;
+            margin: 30px auto;
+            padding: 25px;
             background: #ffffff;
-            border-radius: 18px;
+            border-radius: 20px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(170, 124, 17, 0.08);
         }
 
-        .form-group { margin-bottom: 14px; text-align: right; }
-        .form-group label { display: block; font-size: 13px; margin-bottom: 5px; font-weight: bold; color: var(--text-black); }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--text-black);
+        }
+
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            background: #faf8f5;
+            border-radius: 12px;
+            background: #FCFAF7;
             font-size: 13px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-gold);
         }
 
         .btn-gold {
-            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            background: linear-gradient(135deg, #D4AF37, #AA7C11);
             color: #ffffff;
             border: none;
-            padding: 12px;
+            padding: 14px;
             width: 100%;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(170, 124, 17, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .btn-gold:active {
+            transform: scale(0.98);
         }
 
         #result-box {
-            margin-top: 15px;
-            padding: 12px;
-            background: #f0ebe1;
-            border: 1px solid var(--primary-gold);
-            border-radius: 10px;
-            word-break: break-all;
+            margin-top: 20px;
+            padding: 15px;
+            background: #F9F5EC;
+            border: 1px dashed var(--primary-gold);
+            border-radius: 12px;
             display: none;
-            text-align: right;
+            text-align: center;
         }
 
-        /* واجهة العرض للعميل */
+        /* واجهة الظرف 3D */
         #envelope-overlay {
             position: fixed;
             inset: 0;
@@ -98,38 +121,51 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 20px;
         }
 
         .envelope-card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 20px;
+            background: #FFFFFF;
+            padding: 30px 25px;
+            border-radius: 24px;
             border: 2px solid var(--primary-gold);
             text-align: center;
-            width: 85%;
-            max-width: 360px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20deg); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .envelope-icon {
+            font-size: 55px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
         }
 
         #main-content {
             display: none;
-            max-width: 450px;
+            max-width: 460px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 20px 15px;
         }
 
-        /* انيميشن السكرول الكروت */
+        /* انيميشن السكرول للكروت */
         .section-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.02);
             text-align: center;
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .section-card.visible {
@@ -140,87 +176,86 @@
         .counter-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 12px;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .counter-item {
-            background: #ffffff;
+            background: #FAF6F0;
             border: 1px solid var(--border-color);
-            padding: 8px;
-            border-radius: 8px;
+            padding: 10px 5px;
+            border-radius: 12px;
         }
 
         .counter-item span {
             display: block;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             color: var(--dark-gold);
         }
 
         .msg-box {
-            background: #ffffff;
+            background: #FCFAF7;
             border-right: 4px solid var(--primary-gold);
-            padding: 10px 12px;
-            margin-bottom: 10px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
             text-align: right;
-            border-radius: 6px;
+            border-radius: 8px;
             border-top: 1px solid var(--border-color);
             border-left: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
             font-size: 14px;
+            line-height: 1.6;
         }
 
         .media-container img, .media-container video {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 14px;
             margin-top: 10px;
             border: 1px solid var(--border-color);
         }
 
         .gold-title {
             color: var(--dark-gold);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. مولد الروابط -->
+    <!-- 1. لوحة إنشاء الهدية (للأدمن/التاجر) -->
     <div id="generator-screen">
-        <h3 class="gold-title" style="text-align: center; margin-bottom: 15px;">مولد هدايا العشاق ✨</h3>
-        
-        <div class="form-group"><label>اسم المستلم (مثال: مريم):</label><input type="text" id="g-name" placeholder="مريم"></div>
-        <div class="form-group"><label>كلمة السر للظرف:</label><input type="text" id="g-pass" placeholder="بحبك"></div>
+        <h3 class="gold-title" style="text-align: center; margin-bottom: 20px;">✨ مولد هدايا العشاق الاحترافي ✨</h3>
+        <div class="form-group"><label>اسم المستلم:</label><input type="text" id="g-name" placeholder="مثال: مريم"></div>
+        <div class="form-group"><label>كلمة السر للظرف:</label><input type="text" id="g-pass" placeholder="مثال: بحبك"></div>
         <div class="form-group"><label>تاريخ البداية (للعداد):</label><input type="datetime-local" id="g-date"></div>
-        <div class="form-group"><label>الجملة الافتتاحية:</label><input type="text" id="g-intro" placeholder="مش عارف رده فعلك ايه بس يارب تتبسطي"></div>
-        <div class="form-group"><label>الرسائل (افصلي بين كل رسالة بشرطة -):</label><textarea id="g-msgs" rows="3" placeholder="بحبك - نورعيني - بموت فيكي - ربنا يحفظك ليا"></textarea></div>
+        <div class="form-group"><label>الجملة الافتتاحية:</label><input type="text" id="g-intro" placeholder="جملة تظهر أول ما يفتح الهدية"></div>
+        <div class="form-group"><label>الرسائل (افصلي بين كل رسالة بشرطة -):</label><textarea id="g-msgs" rows="3" placeholder="الرسالة الأولية - الرسالة الثانية - الرسالة الثالثة"></textarea></div>
+        <div class="form-group"><label>رابط الصورة المباشر (من Catbox أو Drive):</label><input type="text" id="g-img" placeholder="https://..."></div>
+        <div class="form-group"><label>رابط الأغنية المباشر (MP3):</label><input type="text" id="g-audio" placeholder="https://..."></div>
+        <div class="form-group"><label>رابط الفيديو المباشر (MP4):</label><input type="text" id="g-video" placeholder="https://..."></div>
+        <button class="btn-gold" onclick="generateLink()">إنشاء الرابط القصير فوراً ✨</button>
         
-        <div class="form-group"><label>اختر الصور من الموبايل:</label><input type="file" id="g-imgs" accept="image/*" multiple></div>
-        <div class="form-group"><label>اختر الأغنية (MP3):</label><input type="file" id="g-audio" accept="audio/*"></div>
-        <div class="form-group"><label>اختر الفيديو (MP4):</label><input type="file" id="g-video" accept="video/*"></div>
-
-        <button class="btn-gold" onclick="generateLink()">إنشاء الرابط فوراً ✨</button>
-
         <div id="result-box">
-            <p style="font-size: 12px; font-weight: bold;">الرابط الجاهز للعميل:</p>
-            <p id="generated-url" style="color: var(--dark-gold); font-size: 12px; margin: 6px 0;"></p>
-            <button class="btn-gold" onclick="copyUrl()">نسخ الرابط</button>
+            <p style="font-size: 13px; font-weight: bold; color: var(--text-black);">الرابط جاهز للعميل:</p>
+            <p id="generated-url" style="color: var(--dark-gold); font-size: 12px; margin: 10px 0; word-break: break-all; font-weight: 600;"></p>
+            <button class="btn-gold" onclick="copyUrl()">نسخ الرابط 📋</button>
         </div>
     </div>
 
-    <!-- 2. شاشة الظرف -->
+    <!-- 2. واجهة الظرف وكلمة السر (للعميل) -->
     <div id="envelope-overlay" style="display:none;">
         <div class="envelope-card">
-            <div style="font-size: 45px; margin-bottom: 8px;">✉️</div>
+            <div class="envelope-icon">✉️</div>
             <h3 id="view-envelope-title" class="gold-title"></h3>
-            <p style="font-size: 13px; color: var(--text-muted); margin: 8px 0;">ادخلي كلمة السر لفتح الهدية 💖</p>
-            <input type="password" id="unlock-pass" style="width: 100%; padding: 8px; text-align: center; margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+            <p style="font-size: 13px; color: var(--text-muted); margin: 10px 0;">ادخلي كلمة السر الخاصة لفتح الهدية 💖</p>
+            <input type="password" id="unlock-pass" placeholder="كلمة السر" style="width: 100%; padding: 10px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 10px; outline: none;">
             <button class="btn-gold" onclick="checkPass()">افتحي الهدية ✨</button>
         </div>
     </div>
 
-    <!-- 3. المحتوى الرئيسي -->
+    <!-- 3. المحتوى الرئيسي للهدية -->
     <div id="main-content">
         <div class="section-card">
             <h3 id="view-intro" class="gold-title"></h3>
@@ -239,18 +274,18 @@
         </div>
 
         <div class="section-card">
-            <h3 class="gold-title" style="margin-bottom: 12px;">💬 رسائل من القلب</h3>
+            <h3 class="gold-title" style="margin-bottom: 15px;">💬 رسائل من القلب</h3>
             <div id="view-msgs"></div>
         </div>
 
-        <div class="section-card" id="card-imgs" style="display:none;">
+        <div class="section-card" id="card-img" style="display:none;">
             <h3 class="gold-title">📸 ذكرياتنا سوا</h3>
-            <div id="view-imgs" class="media-container"></div>
+            <div id="view-img" class="media-container"></div>
         </div>
 
         <div class="section-card" id="card-audio" style="display:none;">
             <h3 class="gold-title">🎵 أغنيتنا</h3>
-            <audio id="view-audio" controls style="width: 100%; margin-top: 8px;"></audio>
+            <audio id="view-audio" controls style="width: 100%; margin-top: 10px;"></audio>
         </div>
 
         <div class="section-card" id="card-video" style="display:none;">
@@ -261,8 +296,8 @@
         </div>
 
         <div class="section-card" style="background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold)); color: #ffffff;">
-            <h3 id="footer-text"></h3>
-            <p style="font-size: 12px; opacity: 0.9; margin-top: 4px;">✨ Made Specially For You ✨</p>
+            <h3 id="footer-text" style="color: #fff;"></h3>
+            <p style="font-size: 12px; opacity: 0.9; margin-top: 5px;">✨ Made Specially For You ✨</p>
         </div>
     </div>
 
@@ -276,43 +311,25 @@
         if (dataParam) {
             document.getElementById('generator-screen').style.display = 'none';
             document.getElementById('envelope-overlay').style.display = 'flex';
-            clientData = JSON.parse(decodeURIComponent(escape(atob(dataParam))));
-            document.getElementById('view-envelope-title').innerText = `هدية خاصة لـ ${clientData.n}`;
-        }
-
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-                reader.readAsDataURL(file);
-            });
-        }
-
-        async function generateLink() {
-            const imgFiles = document.getElementById('g-imgs').files;
-            const audioFile = document.getElementById('g-audio').files[0];
-            const videoFile = document.getElementById('g-video').files[0];
-
-            let imgB64 = [];
-            for (let file of imgFiles) {
-                imgB64.push(await fileToBase64(file));
+            try {
+                clientData = JSON.parse(decodeURIComponent(escape(atob(dataParam))));
+                document.getElementById('view-envelope-title').innerText = `هدية خاصة لـ ${clientData.n}`;
+            } catch (e) {
+                console.error("Error decoding data");
             }
+        }
 
-            let audioB64 = audioFile ? await fileToBase64(audioFile) : "";
-            let videoB64 = videoFile ? await fileToBase64(videoFile) : "";
-
+        function generateLink() {
             const rawMsgs = document.getElementById('g-msgs').value.split('-').map(m => m.trim()).filter(m => m !== "");
-
             const data = {
                 n: document.getElementById('g-name').value || "مريم",
                 p: document.getElementById('g-pass').value || "بحبك",
                 dt: document.getElementById('g-date').value,
                 it: document.getElementById('g-intro').value || "مش عارف رده فعلك ايه بس يارب تتبسطي",
                 m: rawMsgs,
-                i: imgB64,
-                a: audioB64,
-                v: videoB64
+                i: document.getElementById('g-img').value,
+                a: document.getElementById('g-audio').value,
+                v: document.getElementById('g-video').value
             };
 
             const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
@@ -323,7 +340,8 @@
         }
 
         function copyUrl() {
-            navigator.clipboard.writeText(document.getElementById('generated-url').innerText);
+            const urlText = document.getElementById('generated-url').innerText;
+            navigator.clipboard.writeText(urlText);
             alert("تم نسخ الرابط بنجاح! 🎉");
         }
 
@@ -341,19 +359,16 @@
         function loadGift() {
             document.getElementById('view-intro').innerText = clientData.it;
             document.getElementById('footer-text').innerText = `معمولة مخصوص لـ ${clientData.n} ❤️`;
-
             document.getElementById('view-msgs').innerHTML = clientData.m.map(m => `<div class="msg-box">${m}</div>`).join('');
 
-            if (clientData.i && clientData.i.length > 0) {
-                document.getElementById('card-imgs').style.display = 'block';
-                document.getElementById('view-imgs').innerHTML = clientData.i.map(img => `<img src="${img}">`).join('');
+            if (clientData.i) {
+                document.getElementById('card-img').style.display = 'block';
+                document.getElementById('view-img').innerHTML = `<img src="${clientData.i}">`;
             }
-
             if (clientData.a) {
                 document.getElementById('card-audio').style.display = 'block';
                 document.getElementById('view-audio').src = clientData.a;
             }
-
             if (clientData.v) {
                 document.getElementById('card-video').style.display = 'block';
                 document.getElementById('view-video').src = clientData.v;
@@ -394,10 +409,10 @@
                 h.className = 'floating-heart';
                 h.innerText = ['✨', '💖', '⭐', '💕'][Math.floor(Math.random() * 4)];
                 h.style.left = Math.random() * 100 + 'vw';
-                h.style.fontSize = (Math.random() * 8 + 14) + 'px';
+                h.style.fontSize = (Math.random() * 10 + 14) + 'px';
                 document.body.appendChild(h);
-                setTimeout(() => h.remove(), 5000);
-            }, 400);
+                setTimeout(() => h.remove(), 4000);
+            }, 350);
         }
     </script>
 </body>
