@@ -3,135 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هدية خاصة ❤️</title>
+    <title>هدية خاصة ✨</title>
     <style>
-        :root { --bg: #fdf5f5; --primary: #e63946; --card: #ffffff; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
-        body { background: var(--bg); color: #2b2d42; overflow-x: hidden; padding-bottom: 30px; }
-
-        /* القلوب الطائرة */
-        .heart { position: fixed; pointer-events: none; z-index: 99; animation: floatUp 5s linear infinite; }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        :root {
+            --bg-color: #fdfbf7;
+            --card-bg: #f5efe6;
+            --primary-gold: #c5a059;
+            --dark-gold: #9e7b3b;
+            --text-black: #1a1a1a;
+            --text-muted: #555555;
+            --border-color: #e2d7c5;
         }
 
-        /* المولد (Generator) */
-        #generator-screen { max-width: 500px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
-        .btn { background: var(--primary); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        #result-box { margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 8px; word-break: break-all; display: none; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        /* عرض الهدية (Gift View) */
-        #gift-screen { display: none; max-width: 450px; margin: 0 auto; padding: 20px; }
-        #envelope-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .env-card { background: #fff; padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 85%; }
-        
-        .card { background: var(--card); padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; }
-        .counter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-        .c-item { background: #fff0f0; padding: 8px; border-radius: 8px; font-weight: bold; color: var(--primary); }
-        .msg-item { background: #fff5f5; border-right: 4px solid var(--primary); padding: 10px; margin-bottom: 8px; text-align: right; border-radius: 6px; }
-        .img-card img { width: 100%; border-radius: 10px; margin-top: 5px; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-black);
+            overflow-x: hidden;
+            padding-bottom: 40px;
+        }
+
+        /* العناصر الطائرة */
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.6); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+        }
+
+        /* شاشة مولد الروابط */
+        #generator-screen {
+            max-width: 550px;
+            margin: 30px auto;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 14px; margin-bottom: 6px; font-weight: bold; color: var(--text-black); }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: #faf8f5;
+            font-size: 14px;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0ebe1;
+            border: 1px solid var(--primary-gold);
+            border-radius: 10px;
+            word-break: break-all;
+            display: none;
+        }
+
+        /* الشاشات والعرض للعميل */
+        #envelope-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .envelope-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid var(--primary-gold);
+            text-align: center;
+            width: 85%;
+            max-width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        #main-content {
+            display: none;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .section-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* العداد */
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .counter-item {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .counter-item span {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--dark-gold);
+        }
+
+        /* الرسائل والصور */
+        .msg-box {
+            background: #ffffff;
+            border-right: 4px solid var(--primary-gold);
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            text-align: right;
+            border-radius: 8px;
+            border-top: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .media-container img, .media-container video {
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .gold-title {
+            color: var(--dark-gold);
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- 1. لوحة تحكم إنشاء الرابط (المولد) -->
+    <!-- 1. لوحة المولد لإنشاء الرابط -->
     <div id="generator-screen">
-        <h2 style="text-align: center; color: var(--primary); margin-bottom: 15px;">إنشاء رابط هدية جديد 🎁</h2>
-        <div class="form-group"><label>اسم الشخص:</label><input type="text" id="g-name" placeholder="مثال: شهد"></div>
-        <div class="form-group"><label>كلمة السر للظرف:</label><input type="text" id="g-pass" placeholder="مثال: love"></div>
-        <div class="form-group"><label>تاريخ البداية:</label><input type="datetime-local" id="g-date"></div>
-        <div class="form-group"><label>الجملة الافتتاحية:</label><input type="text" id="g-intro" placeholder="مش عارف رد فعلك هيبقا إيه..."></div>
-        <div class="form-group"><label>الرسائل (افصلي بين كل رسالة بشرطة -):</label><textarea id="g-msgs" rows="3" placeholder="الرسالة الأولى - الرسالة الثانية"></textarea></div>
-        <div class="form-group"><label>روابط الصور (افصلي بين كل رابط بشرطة -):</label><textarea id="g-imgs" rows="2" placeholder="رابط الصورة 1 - رابط الصورة 2"></textarea></div>
-        <div class="form-group"><label>رابط الأغنية (MP3):</label><input type="text" id="g-audio" placeholder="https://..."></div>
-        <button class="btn" onclick="generateLink()">إنشاء الرابط فوراً ✨</button>
+        <h2 class="gold-title" style="text-align: center; margin-bottom: 20px;">إنشاء رابط هدية جديد ✨</h2>
+        
+        <div class="form-group"><label>اسم الشخص (مثال: شهد):</label><input type="text" id="g-name" placeholder="سما"></div>
+        <div class="form-group"><label>كلمة السر للظرف:</label><input type="text" id="g-pass" placeholder="1234"></div>
+        <div class="form-group"><label>تاريخ البداية (للعداد):</label><input type="datetime-local" id="g-date"></div>
+        <div class="form-group"><label>الجملة الافتتاحية:</label><input type="text" id="g-intro" placeholder="عملتلك حاجة مخصوص عشانك ❤️"></div>
+        <div class="form-group"><label>الرسائل (اكتبي كل رسالة في سطر جديد):</label><textarea id="g-msgs" rows="4" placeholder="الرسالة الأولى&#10;الرسالة الثانية&#10;الرسالة الثالثة"></textarea></div>
+        
+        <div class="form-group"><label>اختر الصور من جهازك:</label><input type="file" id="g-imgs" accept="image/*" multiple></div>
+        <div class="form-group"><label>اختر الأغنية من جهازك (MP3):</label><input type="file" id="g-audio" accept="audio/*"></div>
+        <div class="form-group"><label>اختر الفيديو من جهازك (MP4):</label><input type="file" id="g-video" accept="video/*"></div>
+
+        <button class="btn-gold" onclick="generateLink()">إنشاء الرابط فوراً ✨</button>
 
         <div id="result-box">
             <p><b>الرابط الجاهز للعميل:</b></p>
-            <p id="generated-url" style="color: #2e7d32; font-size: 13px; margin: 5px 0;"></p>
-            <button class="btn" style="background:#2e7d32;" onclick="copyUrl()">نسخ الرابط</button>
+            <p id="generated-url" style="color: var(--dark-gold); font-size: 13px; margin: 8px 0;"></p>
+            <button class="btn-gold" onclick="copyUrl()">نسخ الرابط</button>
         </div>
     </div>
 
-    <!-- 2. واجهة الظرف والهدية التي يراها العميل -->
+    <!-- 2. واجهة الظرف -->
     <div id="envelope-overlay" style="display:none;">
-        <div class="env-card">
-            <div style="font-size: 50px;">✉️</div>
-            <h3 id="view-name"></h3>
-            <p style="font-size: 13px; color: #666; margin: 10px 0;">اكتبي كلمة السر لفتح الهدية 💖</p>
-            <input type="password" id="unlock-pass" style="width: 100%; padding: 10px; text-align: center; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px;">
-            <button class="btn" onclick="checkPass()">افتحي الهدية ✨</button>
+        <div class="envelope-card">
+            <div style="font-size: 50px; margin-bottom: 10px;">✉️</div>
+            <h3 id="view-envelope-title" class="gold-title"></h3>
+            <p style="font-size: 14px; color: var(--text-muted); margin: 10px 0;">ادخلي كلمة السر لفتح الهدية 💖</p>
+            <input type="password" id="unlock-pass" style="width: 100%; padding: 10px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 8px;">
+            <button class="btn-gold" onclick="checkPass()">افتحي الهدية ✨</button>
         </div>
     </div>
 
-    <div id="gift-screen">
-        <div class="card">
-            <h2 id="view-intro" style="color: var(--primary);"></h2>
+    <!-- 3. المحتوى الرئيسي لصفحة الهدية -->
+    <div id="main-content">
+        <div class="section-card">
+            <h2 id="view-intro" class="gold-title"></h2>
         </div>
 
-        <div class="card">
-            <h3>⏳ عداد حكايتنا</h3>
-            <div class="counter">
-                <div class="c-item"><span id="y">0</span><br><small>سنة</small></div>
-                <div class="c-item"><span id="m">0</span><br><small>شهر</small></div>
-                <div class="c-item"><span id="d">0</span><br><small>يوم</small></div>
-                <div class="c-item"><span id="h">0</span><br><small>ساعة</small></div>
-                <div class="c-item"><span id="i">0</span><br><small>دقيقة</small></div>
-                <div class="c-item"><span id="s">0</span><br><small>ثانية</small></div>
+        <div class="section-card">
+            <h3 class="gold-title">⏳ عداد حكايتنا</h3>
+            <div class="counter-grid">
+                <div class="counter-item"><span id="y">0</span>سنة</div>
+                <div class="counter-item"><span id="m">0</span>شهر</div>
+                <div class="counter-item"><span id="d">0</span>يوم</div>
+                <div class="counter-item"><span id="h">0</span>ساعة</div>
+                <div class="counter-item"><span id="i">0</span>دقيقة</div>
+                <div class="counter-item"><span id="s">0</span>ثانية</div>
             </div>
         </div>
 
-        <div class="card" id="msgs-card">
-            <h3>💬 رسائل من القلب</h3>
-            <div id="view-msgs" style="margin-top: 10px;"></div>
+        <div class="section-card" id="card-msgs">
+            <h3 class="gold-title" style="margin-bottom: 15px;">💬 رسائل من القلب</h3>
+            <div id="view-msgs"></div>
         </div>
 
-        <div class="card" id="imgs-card">
-            <h3>📸 ذكرياتنا سوا</h3>
-            <div id="view-imgs" style="margin-top: 10px;"></div>
+        <div class="section-card" id="card-imgs" style="display:none;">
+            <h3 class="gold-title">📸 ذكرياتنا سوا</h3>
+            <div id="view-imgs" class="media-container"></div>
         </div>
 
-        <div class="card" id="audio-card" style="display:none;">
-            <h3>🎵 أغنيتنا</h3>
+        <div class="section-card" id="card-audio" style="display:none;">
+            <h3 class="gold-title">🎵 أغنيتنا</h3>
             <audio id="view-audio" controls style="width: 100%; margin-top: 10px;"></audio>
         </div>
 
-        <div class="card" style="background: linear-gradient(135deg, #e63946, #ff758f); color: white;">
-            <h3 id="footer-name"></h3>
-            <p style="font-size: 12px; opacity: 0.9; margin-top: 4px;">Made Specially For You ✨</p>
+        <div class="section-card" id="card-video" style="display:none;">
+            <h3 class="gold-title">🎬 فيديو خاص</h3>
+            <div class="media-container">
+                <video id="view-video" controls></video>
+            </div>
+        </div>
+
+        <div class="section-card" style="background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold)); color: #ffffff;">
+            <h3 id="footer-text"></h3>
+            <p style="font-size: 13px; opacity: 0.9; margin-top: 5px;">Made Specially For You ✨</p>
         </div>
     </div>
 
     <script>
-        // التحقق مما إذا كان اللينك يحتوي على بيانات عميل أم إنه صفحة إنشاء
         const urlParams = new URLSearchParams(window.location.search);
         const dataParam = urlParams.get('d');
-
         let clientData = null;
 
         if (dataParam) {
-            // فتح واجهة العميل
             document.getElementById('generator-screen').style.display = 'none';
             document.getElementById('envelope-overlay').style.display = 'flex';
             clientData = JSON.parse(decodeURIComponent(escape(atob(dataParam))));
-            document.getElementById('view-name').innerText = `هدية خاصة لـ ${clientData.n}`;
+            document.getElementById('view-envelope-title').innerText = `هدية خاصة لـ ${clientData.n}`;
             startHearts();
         }
 
-        // توليد الرابط
-        function generateLink() {
+        async function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function generateLink() {
+            const imgFiles = document.getElementById('g-imgs').files;
+            const audioFile = document.getElementById('g-audio').files[0];
+            const videoFile = document.getElementById('g-video').files[0];
+
+            let imgB64 = [];
+            for (let file of imgFiles) {
+                imgB64.push(await fileToBase64(file));
+            }
+
+            let audioB64 = audioFile ? await fileToBase64(audioFile) : "";
+            let videoB64 = videoFile ? await fileToBase64(videoFile) : "";
+
+            const rawMsgs = document.getElementById('g-msgs').value.split('\n').filter(m => m.trim() !== "");
+
             const data = {
-                n: document.getElementById('g-name').value || "شهد",
-                p: document.getElementById('g-pass').value || "love",
+                n: document.getElementById('g-name').value || "سما",
+                p: document.getElementById('g-pass').value || "1234",
                 dt: document.getElementById('g-date').value,
                 it: document.getElementById('g-intro').value || "عملتلك حاجة مخصوص عشانك ❤️",
-                m: document.getElementById('g-msgs').value.split('-'),
-                i: document.getElementById('g-imgs').value.split('-'),
-                a: document.getElementById('g-audio').value
+                m: rawMsgs,
+                i: imgB64,
+                a: audioB64,
+                v: videoB64
             };
 
             const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
@@ -146,12 +325,11 @@
             alert("تم نسخ الرابط بنجاح! تقدر تبعتيه للعميل حالاً 🚀");
         }
 
-        // فتح الهدية
         function checkPass() {
             const input = document.getElementById('unlock-pass').value;
             if (input === clientData.p) {
                 document.getElementById('envelope-overlay').style.display = 'none';
-                document.getElementById('gift-screen').style.display = 'block';
+                document.getElementById('main-content').style.display = 'block';
                 loadGift();
             } else {
                 alert("كلمة السر خاطئة ❌");
@@ -160,22 +338,27 @@
 
         function loadGift() {
             document.getElementById('view-intro').innerText = clientData.it;
-            document.getElementById('footer-name').innerText = `معمولة مخصوص لـ ${clientData.n} ❤️`;
+            document.getElementById('footer-text').innerText = `معمولة مخصوص لـ ${clientData.n} ❤️`;
 
-            // الرسائل
-            document.getElementById('view-msgs').innerHTML = clientData.m.map(m => `<div class="msg-item">${m.trim()}</div>`).join('');
+            // عرض الرسائل كل واحدة في سطر
+            document.getElementById('view-msgs').innerHTML = clientData.m.map(m => `<div class="msg-box">${m}</div>`).join('');
 
             // الصور
-            if (clientData.i[0]) {
-                document.getElementById('view-imgs').innerHTML = clientData.i.map(img => `<div class="img-card"><img src="${img.trim()}"></div>`).join('');
-            } else {
-                document.getElementById('imgs-card').style.display = 'none';
+            if (clientData.i && clientData.i.length > 0) {
+                document.getElementById('card-imgs').style.display = 'block';
+                document.getElementById('view-imgs').innerHTML = clientData.i.map(img => `<img src="${img}">`).join('');
             }
 
             // الصوت
             if (clientData.a) {
-                document.getElementById('audio-card').style.display = 'block';
+                document.getElementById('card-audio').style.display = 'block';
                 document.getElementById('view-audio').src = clientData.a;
+            }
+
+            // الفيديو
+            if (clientData.v) {
+                document.getElementById('card-video').style.display = 'block';
+                document.getElementById('view-video').src = clientData.v;
             }
 
             // العداد
@@ -191,18 +374,33 @@
                     document.getElementById('y').innerText = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
                 }, 1000);
             }
+
+            initScrollObserver();
+        }
+
+        function initScrollObserver() {
+            const cards = document.querySelectorAll('.section-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => observer.observe(card));
         }
 
         function startHearts() {
             setInterval(() => {
                 const h = document.createElement('div');
-                h.className = 'heart';
-                h.innerText = ['❤️', '💖', '✨'][Math.floor(Math.random() * 3)];
+                h.className = 'floating-heart';
+                h.innerText = ['✨', '⭐', '💖'][Math.floor(Math.random() * 3)];
                 h.style.left = Math.random() * 100 + 'vw';
                 h.style.fontSize = (Math.random() * 10 + 15) + 'px';
                 document.body.appendChild(h);
-                setTimeout(() => h.remove(), 5000);
-            }, 400);
+                setTimeout(() => h.remove(), 6000);
+            }, 500);
         }
     </script>
 </body>
