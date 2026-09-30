@@ -6,14 +6,13 @@
     <title>هدية خاصة ✨</title>
     <style>
         :root {
-            --bg-color: #FAF6F0;
-            --card-bg: #FFFFFF;
-            --primary-gold: #D4AF37;
-            --dark-gold: #AA7C11;
-            --light-gold: #F3E5AB;
-            --text-black: #2C2C2C;
-            --text-muted: #666666;
-            --border-color: #E8DFD1;
+            --bg-color: #EFE8DC;
+            --card-bg: #FAF6F0;
+            --primary-gold: #C5A059;
+            --dark-gold: #8C6D31;
+            --text-dark: #1E1E1E;
+            --text-muted: #555555;
+            --border-color: #D8CEBE;
         }
 
         * {
@@ -25,34 +24,35 @@
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-black);
+            color: var(--text-dark);
             overflow-x: hidden;
-            padding-bottom: 50px;
+            padding-bottom: 60px;
         }
 
-        /* القلوب والنجوم الطائرة */
-        .floating-heart {
+        /* العناصر الفضائية المرسومة (نجوم وقلوب) */
+        .floating-element {
             position: fixed;
             pointer-events: none;
             z-index: 999;
-            animation: floatUp 4s linear infinite;
-            opacity: 0.8;
+            animation: floatAnim 6s linear infinite;
+            opacity: 0.6;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0.6) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
+        @keyframes floatAnim {
+            0% { transform: translateY(105vh) rotate(0deg) scale(0.8); opacity: 0.8; }
+            50% { transform: translateY(50vh) rotate(180deg) scale(1.1); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(0.8); opacity: 0; }
         }
 
-        /* لوحة المولد */
+        /* لوحة التحكم (المولد) */
         #generator-screen {
-            max-width: 480px;
+            max-width: 500px;
             margin: 30px auto;
             padding: 25px;
-            background: #ffffff;
+            background: var(--card-bg);
             border-radius: 20px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 10px 30px rgba(170, 124, 17, 0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         .form-group {
@@ -64,8 +64,8 @@
             display: block;
             font-size: 13px;
             margin-bottom: 6px;
-            font-weight: 600;
-            color: var(--text-black);
+            font-weight: 700;
+            color: var(--text-dark);
         }
 
         .form-group input, .form-group textarea {
@@ -73,18 +73,13 @@
             padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            background: #FCFAF7;
+            background: #FFFFFF;
             font-size: 13px;
             outline: none;
-            transition: border 0.3s;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--primary-gold);
         }
 
         .btn-gold {
-            background: linear-gradient(135deg, #D4AF37, #AA7C11);
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
             color: #ffffff;
             border: none;
             padding: 14px;
@@ -94,25 +89,20 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(170, 124, 17, 0.2);
-            transition: transform 0.2s;
-        }
-
-        .btn-gold:active {
-            transform: scale(0.98);
+            box-shadow: 0 4px 15px rgba(140, 109, 49, 0.25);
         }
 
         #result-box {
             margin-top: 20px;
             padding: 15px;
-            background: #F9F5EC;
+            background: #E8E0D2;
             border: 1px dashed var(--primary-gold);
             border-radius: 12px;
             display: none;
             text-align: center;
         }
 
-        /* واجهة الظرف 3D */
+        /* واجهة الظرف المجسم والكبير */
         #envelope-overlay {
             position: fixed;
             inset: 0;
@@ -124,53 +114,84 @@
             padding: 20px;
         }
 
-        .envelope-card {
-            background: #FFFFFF;
-            padding: 30px 25px;
+        .envelope-wrapper {
+            background: var(--card-bg);
+            padding: 35px 25px 25px;
             border-radius: 24px;
-            border: 2px solid var(--primary-gold);
+            border: 1px solid var(--border-color);
             text-align: center;
             width: 100%;
             max-width: 380px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
-            animation: fadeIn 0.8s ease-in-out;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20deg); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes popUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        .envelope-icon {
-            font-size: 55px;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        .envelope-3d {
+            width: 130px;
+            height: 85px;
+            background: #E4D9C8;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            position: relative;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
+        .envelope-heart {
+            font-size: 34px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* المحتوى الرئيسي للهدية */
         #main-content {
             display: none;
-            max-width: 460px;
+            max-width: 480px;
             margin: 0 auto;
             padding: 20px 15px;
+            perspective: 1000px;
         }
 
-        /* انيميشن السكرول للكروت */
+        /* الجملة الافتتاحية ببنط كبير ورئيسي */
+        .hero-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--dark-gold);
+            text-align: center;
+            line-height: 1.4;
+            padding: 10px 0;
+        }
+
+        /* كروت بتسلم بعضها أثناء السكرول */
         .section-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 22px;
-            margin-bottom: 22px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.02);
+            border-radius: 22px;
+            padding: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
             text-align: center;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(60px) rotateX(-10deg) scale(0.92);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .section-card.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) rotateX(0deg) scale(1);
         }
 
         .counter-grid {
@@ -181,7 +202,7 @@
         }
 
         .counter-item {
-            background: #FAF6F0;
+            background: #EFE8DC;
             border: 1px solid var(--border-color);
             padding: 10px 5px;
             border-radius: 12px;
@@ -194,71 +215,101 @@
             color: var(--dark-gold);
         }
 
-        .msg-box {
-            background: #FCFAF7;
+        /* سلايدر الرسائل التفاعلي */
+        .slider-container {
+            position: relative;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .msg-slide {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transform: translateX(50px) scale(0.95);
+            transition: all 0.6s ease-in-out;
+            background: #FFFFFF;
             border-right: 4px solid var(--primary-gold);
-            padding: 12px 15px;
-            margin-bottom: 12px;
-            text-align: right;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: 12px;
             border-top: 1px solid var(--border-color);
             border-left: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.6;
         }
 
-        .media-container img, .media-container video {
-            width: 100%;
-            border-radius: 14px;
+        .msg-slide.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+
+        /* معرض الصور المتعددة */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
             margin-top: 10px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            border-radius: 16px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .gold-title {
             color: var(--dark-gold);
-            margin-bottom: 10px;
-            font-size: 18px;
+            margin-bottom: 12px;
+            font-size: 19px;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. لوحة إنشاء الهدية (للأدمن/التاجر) -->
+    <!-- 1. لوحة المولد -->
     <div id="generator-screen">
-        <h3 class="gold-title" style="text-align: center; margin-bottom: 20px;">✨ مولد هدايا العشاق الاحترافي ✨</h3>
+        <h3 class="gold-title" style="text-align: center; margin-bottom: 20px;">✨ مولد الهدايا الفاخر ✨</h3>
         <div class="form-group"><label>اسم المستلم:</label><input type="text" id="g-name" placeholder="مثال: مريم"></div>
         <div class="form-group"><label>كلمة السر للظرف:</label><input type="text" id="g-pass" placeholder="مثال: بحبك"></div>
         <div class="form-group"><label>تاريخ البداية (للعداد):</label><input type="datetime-local" id="g-date"></div>
-        <div class="form-group"><label>الجملة الافتتاحية:</label><input type="text" id="g-intro" placeholder="جملة تظهر أول ما يفتح الهدية"></div>
-        <div class="form-group"><label>الرسائل (افصلي بين كل رسالة بشرطة -):</label><textarea id="g-msgs" rows="3" placeholder="الرسالة الأولية - الرسالة الثانية - الرسالة الثالثة"></textarea></div>
-        <div class="form-group"><label>رابط الصورة المباشر (من Catbox أو Drive):</label><input type="text" id="g-img" placeholder="https://..."></div>
+        <div class="form-group"><label>الجملة الافتتاحية (بنط كبير):</label><input type="text" id="g-intro" placeholder="جملة بارزة تظهر في البداية"></div>
+        <div class="form-group"><label>الرسائل (افصلي بين كل رسالة بشرطة -):</label><textarea id="g-msgs" rows="3" placeholder="الرسالة الأولى - الرسالة الثانية - الرسالة الثالثة"></textarea></div>
+        <div class="form-group"><label>روابط الصور المباشرة (افصلي بفاصلة , للصور المتعددة):</label><input type="text" id="g-img" placeholder="https://catbox...jpg , https://catbox...jpg"></div>
         <div class="form-group"><label>رابط الأغنية المباشر (MP3):</label><input type="text" id="g-audio" placeholder="https://..."></div>
         <div class="form-group"><label>رابط الفيديو المباشر (MP4):</label><input type="text" id="g-video" placeholder="https://..."></div>
         <button class="btn-gold" onclick="generateLink()">إنشاء الرابط القصير فوراً ✨</button>
         
         <div id="result-box">
-            <p style="font-size: 13px; font-weight: bold; color: var(--text-black);">الرابط جاهز للعميل:</p>
+            <p style="font-size: 13px; font-weight: bold;">الرابط جاهز للعميل:</p>
             <p id="generated-url" style="color: var(--dark-gold); font-size: 12px; margin: 10px 0; word-break: break-all; font-weight: 600;"></p>
             <button class="btn-gold" onclick="copyUrl()">نسخ الرابط 📋</button>
         </div>
     </div>
 
-    <!-- 2. واجهة الظرف وكلمة السر (للعميل) -->
+    <!-- 2. واجهة الظرف 3D المجسم -->
     <div id="envelope-overlay" style="display:none;">
-        <div class="envelope-card">
-            <div class="envelope-icon">✉️</div>
+        <div class="envelope-wrapper">
+            <div class="envelope-3d">
+                <div class="envelope-heart">📜</div>
+            </div>
             <h3 id="view-envelope-title" class="gold-title"></h3>
-            <p style="font-size: 13px; color: var(--text-muted); margin: 10px 0;">ادخلي كلمة السر الخاصة لفتح الهدية 💖</p>
-            <input type="password" id="unlock-pass" placeholder="كلمة السر" style="width: 100%; padding: 10px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 10px; outline: none;">
+            <p style="font-size: 13px; color: var(--text-muted); margin: 8px 0 15px;">ادخلي كلمة السر الخاصة لفتح الهدية ✨</p>
+            <input type="password" id="unlock-pass" placeholder="كلمة السر" style="width: 100%; padding: 12px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 14px; outline: none; background: #ffffff;">
             <button class="btn-gold" onclick="checkPass()">افتحي الهدية ✨</button>
         </div>
     </div>
 
-    <!-- 3. المحتوى الرئيسي للهدية -->
+    <!-- 3. المحتوى الرئيسي -->
     <div id="main-content">
         <div class="section-card">
-            <h3 id="view-intro" class="gold-title"></h3>
+            <div id="view-intro" class="hero-title"></div>
         </div>
 
         <div class="section-card">
@@ -274,13 +325,13 @@
         </div>
 
         <div class="section-card">
-            <h3 class="gold-title" style="margin-bottom: 15px;">💬 رسائل من القلب</h3>
-            <div id="view-msgs"></div>
+            <h3 class="gold-title">💬 رسائل من القلب</h3>
+            <div class="slider-container" id="slider-box"></div>
         </div>
 
         <div class="section-card" id="card-img" style="display:none;">
             <h3 class="gold-title">📸 ذكرياتنا سوا</h3>
-            <div id="view-img" class="media-container"></div>
+            <div id="view-img" class="gallery-grid"></div>
         </div>
 
         <div class="section-card" id="card-audio" style="display:none;">
@@ -290,9 +341,7 @@
 
         <div class="section-card" id="card-video" style="display:none;">
             <h3 class="gold-title">🎬 فيديو خاص</h3>
-            <div class="media-container">
-                <video id="view-video" controls></video>
-            </div>
+            <video id="view-video" controls style="width: 100%; border-radius: 14px; margin-top: 10px;"></video>
         </div>
 
         <div class="section-card" style="background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold)); color: #ffffff;">
@@ -306,7 +355,7 @@
         const dataParam = urlParams.get('d');
         let clientData = null;
 
-        startHearts();
+        startFloatingElements();
 
         if (dataParam) {
             document.getElementById('generator-screen').style.display = 'none';
@@ -314,20 +363,19 @@
             try {
                 clientData = JSON.parse(decodeURIComponent(escape(atob(dataParam))));
                 document.getElementById('view-envelope-title').innerText = `هدية خاصة لـ ${clientData.n}`;
-            } catch (e) {
-                console.error("Error decoding data");
-            }
+            } catch (e) { console.error(e); }
         }
 
         function generateLink() {
             const rawMsgs = document.getElementById('g-msgs').value.split('-').map(m => m.trim()).filter(m => m !== "");
+            const rawImgs = document.getElementById('g-img').value.split(',').map(i => i.trim()).filter(i => i !== "");
             const data = {
                 n: document.getElementById('g-name').value || "مريم",
                 p: document.getElementById('g-pass').value || "بحبك",
                 dt: document.getElementById('g-date').value,
-                it: document.getElementById('g-intro').value || "مش عارف رده فعلك ايه بس يارب تتبسطي",
+                it: document.getElementById('g-intro').value || "مش متخيل ردت فعلك بس بحبك",
                 m: rawMsgs,
-                i: document.getElementById('g-img').value,
+                i: rawImgs,
                 a: document.getElementById('g-audio').value,
                 v: document.getElementById('g-video').value
             };
@@ -340,14 +388,12 @@
         }
 
         function copyUrl() {
-            const urlText = document.getElementById('generated-url').innerText;
-            navigator.clipboard.writeText(urlText);
+            navigator.clipboard.writeText(document.getElementById('generated-url').innerText);
             alert("تم نسخ الرابط بنجاح! 🎉");
         }
 
         function checkPass() {
-            const input = document.getElementById('unlock-pass').value;
-            if (input === clientData.p) {
+            if (document.getElementById('unlock-pass').value === clientData.p) {
                 document.getElementById('envelope-overlay').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 loadGift();
@@ -359,12 +405,27 @@
         function loadGift() {
             document.getElementById('view-intro').innerText = clientData.it;
             document.getElementById('footer-text').innerText = `معمولة مخصوص لـ ${clientData.n} ❤️`;
-            document.getElementById('view-msgs').innerHTML = clientData.m.map(m => `<div class="msg-box">${m}</div>`).join('');
 
-            if (clientData.i) {
-                document.getElementById('card-img').style.display = 'block';
-                document.getElementById('view-img').innerHTML = `<img src="${clientData.i}">`;
+            // إعداد سلايدر الرسائل
+            const sliderBox = document.getElementById('slider-box');
+            sliderBox.innerHTML = clientData.m.map((msg, idx) => `<div class="msg-slide ${idx === 0 ? 'active' : ''}">${msg}</div>`).join('');
+            
+            if (clientData.m.length > 1) {
+                let currentSlide = 0;
+                setInterval(() => {
+                    const slides = document.querySelectorAll('.msg-slide');
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }, 3500);
             }
+
+            // إعداد الصور المتعددة
+            if (clientData.i && clientData.i.length > 0) {
+                document.getElementById('card-img').style.display = 'block';
+                document.getElementById('view-img').innerHTML = clientData.i.map(imgUrl => `<img src="${imgUrl}">`).join('');
+            }
+
             if (clientData.a) {
                 document.getElementById('card-audio').style.display = 'block';
                 document.getElementById('view-audio').src = clientData.a;
@@ -398,21 +459,22 @@
                         entry.target.classList.add('visible');
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.15 });
 
             cards.forEach(card => observer.observe(card));
         }
 
-        function startHearts() {
+        function startFloatingElements() {
+            const symbols = ['✨', '⭐', '✦', '✧', '🤍', '🕊️'];
             setInterval(() => {
-                const h = document.createElement('div');
-                h.className = 'floating-heart';
-                h.innerText = ['✨', '💖', '⭐', '💕'][Math.floor(Math.random() * 4)];
-                h.style.left = Math.random() * 100 + 'vw';
-                h.style.fontSize = (Math.random() * 10 + 14) + 'px';
-                document.body.appendChild(h);
-                setTimeout(() => h.remove(), 4000);
-            }, 350);
+                const el = document.createElement('div');
+                el.className = 'floating-element';
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = Math.random() * 90 + 'vw';
+                el.style.fontSize = (Math.random() * 12 + 16) + 'px';
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 6000);
+            }, 500);
         }
     </script>
 </body>
