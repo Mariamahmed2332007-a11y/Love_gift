@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هدية خاصة ❤️</title>
+    <style>
+        :root { --bg: #fdf5f5; --primary: #e63946; --card: #ffffff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+        body { background: var(--bg); color: #2b2d42; overflow-x: hidden; padding-bottom: 30px; }
+
+        /* القلوب الطائرة */
+        .heart { position: fixed; pointer-events: none; z-index: 99; animation: floatUp 5s linear infinite; }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        /* المولد (Generator) */
+        #generator-screen { max-width: 500px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
+        .btn { background: var(--primary); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        #result-box { margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 8px; word-break: break-all; display: none; }
+
+        /* عرض الهدية (Gift View) */
+        #gift-screen { display: none; max-width: 450px; margin: 0 auto; padding: 20px; }
+        #envelope-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .env-card { background: #fff; padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 85%; }
+        
+        .card { background: var(--card); padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; }
+        .counter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+        .c-item { background: #fff0f0; padding: 8px; border-radius: 8px; font-weight: bold; color: var(--primary); }
+        .msg-item { background: #fff5f5; border-right: 4px solid var(--primary); padding: 10px; margin-bottom: 8px; text-align: right; border-radius: 6px; }
+        .img-card img { width: 100%; border-radius: 10px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. لوحة تحكم إنشاء الرابط (المولد) -->
+    <div id="generator-screen">
+        <h2 style="text-align: center; color: var(--primary); margin-bottom: 15px;">إنشاء رابط هدية جديد 🎁</h2>
+        <div class="form-group"><label>اسم الشخص:</label><input type="text" id="g-name" placeholder="مثال: شهد"></div>
+        <div class="form-group"><label>كلمة السر للظرف:</label><input type="text" id="g-pass" placeholder="مثال: love"></div>
+        <div class="form-group"><label>تاريخ البداية:</label><input type="datetime-local" id="g-date"></div>
+        <div class="form-group"><label>الجملة الافتتاحية:</label><input type="text" id="g-intro" placeholder="مش عارف رد فعلك هيبقا إيه..."></div>
+        <div class="form-group"><label>الرسائل (افصلي بين كل رسالة بشرطة -):</label><textarea id="g-msgs" rows="3" placeholder="الرسالة الأولى - الرسالة الثانية"></textarea></div>
+        <div class="form-group"><label>روابط الصور (افصلي بين كل رابط بشرطة -):</label><textarea id="g-imgs" rows="2" placeholder="رابط الصورة 1 - رابط الصورة 2"></textarea></div>
+        <div class="form-group"><label>رابط الأغنية (MP3):</label><input type="text" id="g-audio" placeholder="https://..."></div>
+        <button class="btn" onclick="generateLink()">إنشاء الرابط فوراً ✨</button>
+
+        <div id="result-box">
+            <p><b>الرابط الجاهز للعميل:</b></p>
+            <p id="generated-url" style="color: #2e7d32; font-size: 13px; margin: 5px 0;"></p>
+            <button class="btn" style="background:#2e7d32;" onclick="copyUrl()">نسخ الرابط</button>
+        </div>
+    </div>
+
+    <!-- 2. واجهة الظرف والهدية التي يراها العميل -->
+    <div id="envelope-overlay" style="display:none;">
+        <div class="env-card">
+            <div style="font-size: 50px;">✉️</div>
+            <h3 id="view-name"></h3>
+            <p style="font-size: 13px; color: #666; margin: 10px 0;">اكتبي كلمة السر لفتح الهدية 💖</p>
+            <input type="password" id="unlock-pass" style="width: 100%; padding: 10px; text-align: center; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px;">
+            <button class="btn" onclick="checkPass()">افتحي الهدية ✨</button>
+        </div>
+    </div>
+
+    <div id="gift-screen">
+        <div class="card">
+            <h2 id="view-intro" style="color: var(--primary);"></h2>
+        </div>
+
+        <div class="card">
+            <h3>⏳ عداد حكايتنا</h3>
+            <div class="counter">
+                <div class="c-item"><span id="y">0</span><br><small>سنة</small></div>
+                <div class="c-item"><span id="m">0</span><br><small>شهر</small></div>
+                <div class="c-item"><span id="d">0</span><br><small>يوم</small></div>
+                <div class="c-item"><span id="h">0</span><br><small>ساعة</small></div>
+                <div class="c-item"><span id="i">0</span><br><small>دقيقة</small></div>
+                <div class="c-item"><span id="s">0</span><br><small>ثانية</small></div>
+            </div>
+        </div>
+
+        <div class="card" id="msgs-card">
+            <h3>💬 رسائل من القلب</h3>
+            <div id="view-msgs" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="card" id="imgs-card">
+            <h3>📸 ذكرياتنا سوا</h3>
+            <div id="view-imgs" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="card" id="audio-card" style="display:none;">
+            <h3>🎵 أغنيتنا</h3>
+            <audio id="view-audio" controls style="width: 100%; margin-top: 10px;"></audio>
+        </div>
+
+        <div class="card" style="background: linear-gradient(135deg, #e63946, #ff758f); color: white;">
+            <h3 id="footer-name"></h3>
+            <p style="font-size: 12px; opacity: 0.9; margin-top: 4px;">Made Specially For You ✨</p>
+        </div>
+    </div>
+
+    <script>
+        // التحقق مما إذا كان اللينك يحتوي على بيانات عميل أم إنه صفحة إنشاء
+        const urlParams = new URLSearchParams(window.location.search);
+        const dataParam = urlParams.get('d');
+
+        let clientData = null;
+
+        if (dataParam) {
+            // فتح واجهة العميل
+            document.getElementById('generator-screen').style.display = 'none';
+            document.getElementById('envelope-overlay').style.display = 'flex';
+            clientData = JSON.parse(decodeURIComponent(escape(atob(dataParam))));
+            document.getElementById('view-name').innerText = `هدية خاصة لـ ${clientData.n}`;
+            startHearts();
+        }
+
+        // توليد الرابط
+        function generateLink() {
+            const data = {
+                n: document.getElementById('g-name').value || "شهد",
+                p: document.getElementById('g-pass').value || "love",
+                dt: document.getElementById('g-date').value,
+                it: document.getElementById('g-intro').value || "عملتلك حاجة مخصوص عشانك ❤️",
+                m: document.getElementById('g-msgs').value.split('-'),
+                i: document.getElementById('g-imgs').value.split('-'),
+                a: document.getElementById('g-audio').value
+            };
+
+            const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+            const fullUrl = window.location.origin + window.location.pathname + '?d=' + encoded;
+            
+            document.getElementById('generated-url').innerText = fullUrl;
+            document.getElementById('result-box').style.display = 'block';
+        }
+
+        function copyUrl() {
+            navigator.clipboard.writeText(document.getElementById('generated-url').innerText);
+            alert("تم نسخ الرابط بنجاح! تقدر تبعتيه للعميل حالاً 🚀");
+        }
+
+        // فتح الهدية
+        function checkPass() {
+            const input = document.getElementById('unlock-pass').value;
+            if (input === clientData.p) {
+                document.getElementById('envelope-overlay').style.display = 'none';
+                document.getElementById('gift-screen').style.display = 'block';
+                loadGift();
+            } else {
+                alert("كلمة السر خاطئة ❌");
+            }
+        }
+
+        function loadGift() {
+            document.getElementById('view-intro').innerText = clientData.it;
+            document.getElementById('footer-name').innerText = `معمولة مخصوص لـ ${clientData.n} ❤️`;
+
+            // الرسائل
+            document.getElementById('view-msgs').innerHTML = clientData.m.map(m => `<div class="msg-item">${m.trim()}</div>`).join('');
+
+            // الصور
+            if (clientData.i[0]) {
+                document.getElementById('view-imgs').innerHTML = clientData.i.map(img => `<div class="img-card"><img src="${img.trim()}"></div>`).join('');
+            } else {
+                document.getElementById('imgs-card').style.display = 'none';
+            }
+
+            // الصوت
+            if (clientData.a) {
+                document.getElementById('audio-card').style.display = 'block';
+                document.getElementById('view-audio').src = clientData.a;
+            }
+
+            // العداد
+            if (clientData.dt) {
+                const start = new Date(clientData.dt).getTime();
+                setInterval(() => {
+                    const diff = new Date().getTime() - start;
+                    document.getElementById('s').innerText = Math.floor((diff / 1000) % 60);
+                    document.getElementById('i').innerText = Math.floor((diff / (1000 * 60)) % 60);
+                    document.getElementById('h').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    document.getElementById('d').innerText = Math.floor((diff / (1000 * 60 * 60 * 24)) % 30);
+                    document.getElementById('m').innerText = Math.floor((diff / (1000 * 60 * 60 * 24 * 30.4375)) % 12);
+                    document.getElementById('y').innerText = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+                }, 1000);
+            }
+        }
+
+        function startHearts() {
+            setInterval(() => {
+                const h = document.createElement('div');
+                h.className = 'heart';
+                h.innerText = ['❤️', '💖', '✨'][Math.floor(Math.random() * 3)];
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.fontSize = (Math.random() * 10 + 15) + 'px';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 5000);
+            }, 400);
+        }
+    </script>
+</body>
+</html>
